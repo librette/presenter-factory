@@ -1,0 +1,3 @@
+extensions:
+	presenterFactory: Librette\Application\PresenterFactory\DI\PresenterFactoryExtension
+	myExtension: LibretteTests\Application\PresenterFactory\MyExtension

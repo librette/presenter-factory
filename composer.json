@@ -1,0 +1,23 @@
+{
+	"name": "librette/presenter-factory",
+	"keywords": ["nette", "librette", "application", "presenter factory"],
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "David Matějka",
+			"homepage": "http://www.matej21.cz"
+		}
+	],
+	"require": {
+		"nette/nette": "~2.1"
+	},
+	"require-dev": {
+		"nette/tester": "@dev"
+	},
+	"autoload": {
+		"psr-4": {
+			"Librette\\Application\\PresenterFactory\\": "src/"
+		},
+		"files": ["src/exceptions.php"]
+	}
+}

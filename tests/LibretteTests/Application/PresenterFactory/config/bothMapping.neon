@@ -1,0 +1,11 @@
+extensions:
+	presenterFactory: Librette\Application\PresenterFactory\DI\PresenterFactoryExtension
+nette:
+	application:
+		mapping:
+			*: App\*Module\Presenters\*Presenter
+presenterFactory:
+	mapping:
+		*:
+			- App\*Module\Presenters\*Presenter
+			- *Module\*Presenter

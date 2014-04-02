@@ -1,0 +1,2 @@
+extensions:
+	presenterFactory: Librette\Application\PresenterFactory\DI\PresenterFactoryExtension
