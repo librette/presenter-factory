@@ -33,7 +33,9 @@ class PresenterFactoryExtension extends Nette\DI\CompilerExtension
 		$builder->addDefinition('nette.presenterFactory')->setFactory($this->prefix('@presenterFactory'));
 
 		$builder->addDefinition($this->prefix('presenterObjectFactory'))
-				->setClass('Librette\Application\PresenterFactory\PresenterObjectFactory');
+				->setClass('Librette\Application\PresenterFactory\PresenterObjectFactory')
+				->addSetup('setAlwaysCallInjects', array($this->shouldAlwaysCallInject()));
+
 
 		$genericConfig = $this->getConfig($this->defaults);
 		$mode = $builder->parameters['debugMode'] ? 'debug' : 'production';
@@ -88,5 +90,13 @@ class PresenterFactoryExtension extends Nette\DI\CompilerExtension
 		$config = Nette\DI\Config\Helpers::merge($userConfig, $this->defaults['mapping']);
 
 		return $config;
+	}
+
+
+	private function shouldAlwaysCallInject()
+	{
+		$serviceDef = new Nette\DI\ServiceDefinition();
+
+		return $serviceDef->inject == FALSE;
 	}
 }
