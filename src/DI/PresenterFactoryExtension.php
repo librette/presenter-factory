@@ -27,10 +27,9 @@ class PresenterFactoryExtension extends Nette\DI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 		$mappings = $this->getMappings($this->getMappingConfig());
 		$builder->removeDefinition('nette.presenterFactory');
-		$presenterFactory = $builder->addDefinition($this->prefix('presenterFactory'))
-									->setClass('Librette\Application\PresenterFactory\PresenterFactory');
-		$presenterFactory->addSetup('setMapping', array($mappings));
-		$builder->addDefinition('nette.presenterFactory')->setFactory($this->prefix('@presenterFactory'));
+		$builder->addDefinition('nette.presenterFactory')
+				->setClass('Librette\Application\PresenterFactory\PresenterFactory')
+				->addSetup('setMapping', array($mappings));
 
 		$builder->addDefinition($this->prefix('presenterObjectFactory'))
 				->setClass('Librette\Application\PresenterFactory\PresenterObjectFactory')
