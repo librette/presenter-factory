@@ -39,7 +39,7 @@ class PresenterFactoryExtension extends Nette\DI\CompilerExtension
 		$genericConfig = $this->getConfig($this->defaults);
 		$mode = $builder->parameters['debugMode'] ? 'debug' : 'production';
 		$builder->addDefinition($this->prefix('invalidLinkModeStrategy'))
-				->setClass('\Librette\Application\PresenterFactory\StaticInvalidLinkModeStrategy')
+				->setClass('Librette\Application\PresenterFactory\StaticInvalidLinkModeStrategy')
 				->setArguments(array($genericConfig['invalidLinkMode'][$mode]));
 
 	}
