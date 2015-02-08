@@ -10,16 +10,6 @@ use Tester\TestCase;
 require_once __DIR__ . '/../../bootstrap.php';
 
 
-class PresenterObjectFactoryMock implements IPresenterObjectFactory
-{
-
-	public function createPresenter($class)
-	{
-	}
-
-}
-
-
 /**
  * @author David Grudl
  * @author David Matejka
@@ -41,10 +31,10 @@ class NetteCompatibilityTestCase extends TestCase
 
 	public function testFormatPresenterClasses()
 	{
-		$this->presenterFactory->setMapping(array(
+		$this->presenterFactory->setMapping([
 			'Foo2' => 'App2\*Presenter',
 			'Foo3' => 'My\App\*Presenter',
-		));
+		]);
 
 
 		$this->assertFormatClasses('Foo2Presenter', 'Foo2');
@@ -58,10 +48,10 @@ class NetteCompatibilityTestCase extends TestCase
 
 	public function testFormatPresenterClassModule()
 	{
-		$this->presenterFactory->setMapping(array(
+		$this->presenterFactory->setMapping([
 			'Foo2' => 'App2\*\*Presenter',
 			'Foo3' => 'My\App\*Mod\*Presenter',
-		));
+		]);
 
 		$this->assertFormatClasses('FooPresenter', 'Foo');
 		$this->assertFormatClasses('FooModule\BarPresenter', 'Foo:Bar');
@@ -75,12 +65,21 @@ class NetteCompatibilityTestCase extends TestCase
 	}
 
 
-
 	private function assertFormatClasses($expectedClass, $presenterName)
 	{
 		$classes = $this->presenterFactory->formatPresenterClasses($presenterName);
 		Assert::same($expectedClass, reset($classes));
 	}
+}
+
+
+class PresenterObjectFactoryMock implements IPresenterObjectFactory
+{
+
+	public function createPresenter($class)
+	{
+	}
+
 }
 
 

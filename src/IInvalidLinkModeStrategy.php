@@ -10,8 +10,9 @@ interface IInvalidLinkModeStrategy
 {
 
 	/**
-	 * @param Presenter $presenter
+	 * @param Presenter
 	 * @return int one of Presenter::INVALID_LINK_* constants
 	 */
 	public function getInvalidLinkMode(Presenter $presenter);
+
 }

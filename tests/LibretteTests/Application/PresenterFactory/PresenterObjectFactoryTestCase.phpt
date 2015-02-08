@@ -2,52 +2,12 @@
 namespace LibretteTests\Application\PresenterFactory;
 
 use Librette;
-use Nette\Application\Request;
 use Nette;
-use Tester\Assert;
+use Nette\Application\Request;
 use Tester;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
-
-
-class PresenterMock extends Nette\Application\UI\Presenter
-{
-
-	function run(Request $request)
-	{
-	}
-
-}
-
-
-class BarPresenterMock implements Nette\Application\IPresenter
-{
-
-	/** @var PresenterMock @inject */
-	public $fooPresenter;
-
-
-	function run(Request $request)
-	{
-	}
-}
-
-
-class SystemContainer extends Nette\DI\Container
-{
-
-	protected $meta = array(
-		'types' => array(
-			'librettetests\application\presenterfactory\presentermock' => array('fooPresenter'),
-		)
-	);
-
-
-	public function createServiceFooPresenter()
-	{
-		return new PresenterMock();
-	}
-}
 
 
 /**
@@ -83,6 +43,46 @@ class PresenterObjectFactoryTestCase extends Tester\TestCase
 		$object = $presenterObjectFactory->createPresenter($class = 'LibretteTests\Application\PresenterFactory\BarPresenterMock');
 		Assert::type($class, $object);
 		Assert::type('LibretteTests\Application\PresenterFactory\PresenterMock', $object->fooPresenter);
+	}
+}
+
+
+class SystemContainer extends Nette\DI\Container
+{
+
+	protected $meta = [
+		'types' => [
+			'librettetests\application\presenterfactory\presentermock' => ['fooPresenter'],
+		]
+	];
+
+
+	public function createServiceFooPresenter()
+	{
+		return new PresenterMock();
+	}
+}
+
+
+class PresenterMock extends Nette\Application\UI\Presenter
+{
+
+	function run(Request $request)
+	{
+	}
+
+}
+
+
+class BarPresenterMock implements Nette\Application\IPresenter
+{
+
+	/** @var PresenterMock @inject */
+	public $fooPresenter;
+
+
+	function run(Request $request)
+	{
 	}
 }
 

@@ -3,20 +3,11 @@ namespace LibretteTests\Application\PresenterFactory;
 
 use Librette;
 use Nette;
-use Tester\Assert;
 use Tester;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-
-class PresenterObjectFactoryMock implements Librette\Application\PresenterFactory\IPresenterObjectFactory
-{
-
-	public function createPresenter($class)
-	{
-	}
-
-}
 
 
 /**
@@ -38,10 +29,10 @@ class FormatPresenterClassTestCase extends Tester\TestCase
 
 	public function testSubmodule()
 	{
-		$this->presenterFactory->setMapping(array(
+		$this->presenterFactory->setMapping([
 			'App'     => 'App\\*Module\\*Presenter',
 			'App:Foo' => 'AppFoo\\*Module\\*Presenter',
-		));
+		]);
 
 		Assert::same(['AppFoo\\BarModule\\LoremPresenter', 'App\\FooModule\\BarModule\\LoremPresenter'],
 			$this->presenterFactory->formatPresenterClasses('App:Foo:Bar:Lorem')
@@ -52,9 +43,9 @@ class FormatPresenterClassTestCase extends Tester\TestCase
 
 	public function testMultipleMappingForModule()
 	{
-		$this->presenterFactory->setMapping(array(
-			'App' => array('NS1\\*Module\\*Presenter', 'NS2\\*Module\\*Presenter'),
-		));
+		$this->presenterFactory->setMapping([
+			'App' => ['NS1\\*Module\\*Presenter', 'NS2\\*Module\\*Presenter'],
+		]);
 		$this->presenterFactory->addMapping('App', 'NS3\\*Module\\*Presenter');
 
 		Assert::same(['NS3\\FooModule\\BarPresenter', 'NS2\\FooModule\\BarPresenter', 'NS1\\FooModule\\BarPresenter'],
@@ -62,20 +53,32 @@ class FormatPresenterClassTestCase extends Tester\TestCase
 		);
 	}
 
+
 	public function testDirectPresenterMapping()
 	{
-		$this->presenterFactory->setMapping(array(
+		$this->presenterFactory->setMapping([
 			':Foo:Bar' => 'FooModule\\BarPresenter',
-		));
+		]);
 		Assert::same(['FooModule\\BarPresenter'], $this->presenterFactory->formatPresenterClasses('Foo:Bar'));
 	}
 
+
 	public function testPresenterNameOverwrite()
 	{
-		$this->presenterFactory->setMapping(array(
+		$this->presenterFactory->setMapping([
 			'Foo' => 'Foo\\*Module\\BarPresenter',
-		));
+		]);
 		Assert::same(['Foo\\LoremModule\\BarPresenter'], $this->presenterFactory->formatPresenterClasses('Foo:Lorem:Ipsum'));
+	}
+
+}
+
+
+class PresenterObjectFactoryMock implements Librette\Application\PresenterFactory\IPresenterObjectFactory
+{
+
+	public function createPresenter($class)
+	{
 	}
 
 }

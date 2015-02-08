@@ -10,16 +10,16 @@ use Nette;
 class PresenterFactoryExtension extends Nette\DI\CompilerExtension
 {
 
-	protected $defaults = array(
-		'mapping'         => array(
+	protected $defaults = [
+		'mapping'         => [
 			'*'     => '*Module\\*Presenter',
 			'Nette' => 'NetteModule\\*\\*Presenter',
-		),
-		'invalidLinkMode' => array(
+		],
+		'invalidLinkMode' => [
 			'debug'      => Nette\Application\UI\Presenter::INVALID_LINK_WARNING,
 			'production' => Nette\Application\UI\Presenter::INVALID_LINK_SILENT,
-		),
-	);
+		],
+	];
 
 
 	public function loadConfiguration()
@@ -28,26 +28,26 @@ class PresenterFactoryExtension extends Nette\DI\CompilerExtension
 		$mappings = $this->getMappings($this->getMappingConfig());
 		$builder->removeDefinition('nette.presenterFactory');
 		$builder->addDefinition('nette.presenterFactory')
-				->setClass('Librette\Application\PresenterFactory\PresenterFactory')
-				->addSetup('setMapping', array($mappings));
+		        ->setClass('Librette\Application\PresenterFactory\PresenterFactory')
+		        ->addSetup('setMapping', [$mappings]);
 
 		$builder->addDefinition($this->prefix('presenterObjectFactory'))
-				->setClass('Librette\Application\PresenterFactory\PresenterObjectFactory')
-				->addSetup('setAlwaysCallInjects', array($this->shouldAlwaysCallInject()));
+		        ->setClass('Librette\Application\PresenterFactory\PresenterObjectFactory')
+		        ->addSetup('setAlwaysCallInjects', [$this->shouldAlwaysCallInject()]);
 
 
 		$genericConfig = $this->getConfig($this->defaults);
 		$mode = $builder->parameters['debugMode'] ? 'debug' : 'production';
 		$builder->addDefinition($this->prefix('invalidLinkModeStrategy'))
-				->setClass('Librette\Application\PresenterFactory\StaticInvalidLinkModeStrategy')
-				->setArguments(array($genericConfig['invalidLinkMode'][$mode]));
+		        ->setClass('Librette\Application\PresenterFactory\StaticInvalidLinkModeStrategy')
+		        ->setArguments([$genericConfig['invalidLinkMode'][$mode]]);
 
 	}
 
 
 	protected function getMappings($mappings)
 	{
-		$result = array();
+		$result = [];
 		$this->addMappings($result, $mappings);
 
 		foreach ($this->compiler->getExtensions('Librette\Application\PresenterFactory\DI\IPresenterMappingProvider') as $ext) {
@@ -68,7 +68,7 @@ class PresenterFactoryExtension extends Nette\DI\CompilerExtension
 			if (!is_array($mapping)) {
 				$current[$key][] = $mapping;
 			} else {
-				$current[$key] = array_merge(isset($current[$key]) ? $current[$key] : array(), $mapping);
+				$current[$key] = array_merge(isset($current[$key]) ? $current[$key] : [], $mapping);
 			}
 		}
 	}
@@ -85,7 +85,7 @@ class PresenterFactoryExtension extends Nette\DI\CompilerExtension
 			throw new InvalidStateException("You cannot use both nette.application.mapping and {$this->name}.mapping config section, choose one.");
 		}
 		$userConfig = isset($globalConfig[$this->name]['mapping']) ? $globalConfig[$this->name]['mapping'] :
-			(isset($globalConfig['nette']['application']['mapping']) ? $globalConfig['nette']['application']['mapping'] : array());
+			(isset($globalConfig['nette']['application']['mapping']) ? $globalConfig['nette']['application']['mapping'] : []);
 		$config = Nette\DI\Config\Helpers::merge($userConfig, $this->defaults['mapping']);
 
 		return $config;

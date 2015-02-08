@@ -11,15 +11,15 @@ use Nette\Object;
 class ChainedPresenterFactory extends Object implements IPresenterFactory
 {
 
-	/** @var \Librette\Application\PresenterFactory\IPresenterObjectFactory */
+	/** @var IPresenterObjectFactory */
 	protected $presenterObjectFactory;
 
 	/** @var IPresenterFactory[] */
-	protected $presenterFactories = array();
+	protected $presenterFactories = [];
 
 
 	/**
-	 * @param IPresenterObjectFactory $presenterObjectFactory
+	 * @param IPresenterObjectFactory
 	 */
 	public function __construct(IPresenterObjectFactory $presenterObjectFactory)
 	{
@@ -28,7 +28,7 @@ class ChainedPresenterFactory extends Object implements IPresenterFactory
 
 
 	/**
-	 * @param IPresenterFactory $presenterFactory
+	 * @param IPresenterFactory
 	 */
 	public function addPresenterFactory(IPresenterFactory $presenterFactory)
 	{
@@ -38,7 +38,7 @@ class ChainedPresenterFactory extends Object implements IPresenterFactory
 
 	function getPresenterClass(& $name)
 	{
-		$exceptionMessages = array();
+		$exceptionMessages = [];
 		$lastException = NULL;
 		foreach ($this->presenterFactories as $factory) {
 			try {

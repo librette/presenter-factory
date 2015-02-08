@@ -9,18 +9,6 @@ use Tester\Assert;
 require_once __DIR__ . '/../../bootstrap.php';
 
 
-class MyExtension extends Nette\DI\CompilerExtension implements Librette\Application\PresenterFactory\DI\IPresenterMappingProvider
-{
-
-
-	public function getPresenterMappings()
-	{
-		return array('Foo' => 'Foo\\*Module\\*Presenter', 'Bar' => array('*Presenter', 'Bar\\*\\*'));
-	}
-
-}
-
-
 /**
  * @author David Matějka
  * @testCase
@@ -51,7 +39,7 @@ class ExtensionTestCase extends Tester\TestCase
 		Assert::same(Nette\Application\UI\Presenter::INVALID_LINK_WARNING, $invalidLinkModeStrategy->mode);
 
 		Assert::same(['*'     => [['', '*Module\\', '*Presenter']],
-					  'Nette' => [['NetteModule\\', '*\\', '*Presenter']]], $presenterFactory->getMapping());
+		              'Nette' => [['NetteModule\\', '*\\', '*Presenter']]], $presenterFactory->getMapping());
 	}
 
 
@@ -75,7 +63,7 @@ class ExtensionTestCase extends Tester\TestCase
 		$presenterFactory = $container->getByType('Nette\Application\IPresenterFactory');
 
 		Assert::same(['*'     => [['App\\', '*Module\\', 'Presenters\\*Presenter']],
-					  'Nette' => [['NetteModule\\', '*\\', '*Presenter']]], $presenterFactory->getMapping());
+		              'Nette' => [['NetteModule\\', '*\\', '*Presenter']]], $presenterFactory->getMapping());
 	}
 
 
@@ -88,7 +76,7 @@ class ExtensionTestCase extends Tester\TestCase
 		$presenterFactory = $container->getByType('Nette\Application\IPresenterFactory');
 
 		Assert::same(['*'     => [['App\\', '*Module\\', 'Presenters\\*Presenter'], ['', '*Module\\', '*Presenter']],
-					  'Nette' => [['NetteModule\\', '*\\', '*Presenter']]], $presenterFactory->getMapping());
+		              'Nette' => [['NetteModule\\', '*\\', '*Presenter']]], $presenterFactory->getMapping());
 	}
 
 
@@ -112,9 +100,21 @@ class ExtensionTestCase extends Tester\TestCase
 		$presenterFactory = $container->getByType('Nette\Application\IPresenterFactory');
 
 		Assert::same(['*'     => [['', '*Module\\', '*Presenter']],
-					  'Nette' => [['NetteModule\\', '*\\', '*Presenter']],
-					  'Foo'   => [['Foo\\', '*Module\\', '*Presenter']],
-					  'Bar'   => [['', '*Module\\', '*Presenter'], ['Bar\\', '*\\', '*']]], $presenterFactory->getMapping());
+		              'Nette' => [['NetteModule\\', '*\\', '*Presenter']],
+		              'Foo'   => [['Foo\\', '*Module\\', '*Presenter']],
+		              'Bar'   => [['', '*Module\\', '*Presenter'], ['Bar\\', '*\\', '*']]], $presenterFactory->getMapping());
+	}
+
+}
+
+
+class MyExtension extends Nette\DI\CompilerExtension implements Librette\Application\PresenterFactory\DI\IPresenterMappingProvider
+{
+
+
+	public function getPresenterMappings()
+	{
+		return ['Foo' => 'Foo\\*Module\\*Presenter', 'Bar' => ['*Presenter', 'Bar\\*\\*']];
 	}
 
 }

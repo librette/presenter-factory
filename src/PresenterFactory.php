@@ -20,17 +20,17 @@ class PresenterFactory extends Nette\Object implements Application\IPresenterFac
 	public $caseSensitive = FALSE;
 
 	/** @var array[] of module => splited mask */
-	private $mapping = array();
+	private $mapping = [];
 
 	/** @var array */
-	private $cache = array();
+	private $cache = [];
 
-	/** @var \Librette\Application\PresenterFactory\IPresenterObjectFactory */
+	/** @var IPresenterObjectFactory */
 	private $presenterObjectFactory;
 
 
 	/**
-	 * @param IPresenterObjectFactory $presenterObjectFactory
+	 * @param IPresenterObjectFactory
 	 */
 	public function __construct(IPresenterObjectFactory $presenterObjectFactory)
 	{
@@ -47,7 +47,7 @@ class PresenterFactory extends Nette\Object implements Application\IPresenterFac
 	/**
 	 * Generates and checks presenter class name.
 	 *
-	 * @param  string $name presenter name
+	 * @param  string presenter name
 	 * @return string  class name
 	 * @throws Application\InvalidPresenterException
 	 */
@@ -88,13 +88,13 @@ class PresenterFactory extends Nette\Object implements Application\IPresenterFac
 	/**
 	 * Sets mapping as pairs [module => mask]
 	 *
-	 * @param array $mapping
+	 * @param array
 	 * @return self
 	 */
 	public function setMapping(array $mapping)
 	{
 		foreach ($mapping as $module => $mask) {
-			foreach (is_array($mask) ? $mask : array($mask) as $currentMask) {
+			foreach (is_array($mask) ? $mask : [$mask] as $currentMask) {
 				$this->addMapping($module, $currentMask);
 			}
 		}
@@ -104,8 +104,8 @@ class PresenterFactory extends Nette\Object implements Application\IPresenterFac
 
 
 	/**
-	 * @param string $module
-	 * @param string|array $mask
+	 * @param string
+	 * @param string|array
 	 * @return $this
 	 * @throws \Nette\InvalidStateException
 	 */
@@ -114,7 +114,7 @@ class PresenterFactory extends Nette\Object implements Application\IPresenterFac
 		if (preg_match('#^\\\\?(([\w\\\\]+\\\\)?[\w]+)\z#', $mask, $m)) { //direct presenter mapping
 			$this->mapping[$module][] = $m[1];
 		} elseif (preg_match('#^\\\\?([\w\\\\]*\\\\)?(\w*\*\w*?\\\\)?([\w\\\\]*\*?\w*)\z#', $mask, $m)) {
-			$this->mapping[$module][] = array($m[1], $m[2] ? : '*Module\\', $m[3]);
+			$this->mapping[$module][] = [$m[1], $m[2] ?: '*Module\\', $m[3]];
 		} else {
 			throw new Nette\InvalidStateException("Invalid mapping mask '$mask'.");
 		}
@@ -126,21 +126,21 @@ class PresenterFactory extends Nette\Object implements Application\IPresenterFac
 	/**
 	 * Formats presenter class name from its name.
 	 *
-	 * @param  string $presenter
+	 * @param  string
 	 * @return array
 	 */
 	public function formatPresenterClasses($presenter)
 	{
 		$parts = explode(':', $presenter);
 		$lastPos = 0;
-		$possibleModules = array('*');
+		$possibleModules = ['*'];
 		while ($pos = strpos($presenter, ':', $lastPos)) {
 			$possibleModules[] = substr($presenter, 0, $pos);
 			$lastPos = $pos + 1;
 		}
 		$possibleModules[] = ':' . $presenter;
 
-		$classes = array();
+		$classes = [];
 		foreach ($possibleModules as $module) {
 			if (!isset($this->mapping[$module])) {
 				continue;
@@ -167,7 +167,7 @@ class PresenterFactory extends Nette\Object implements Application\IPresenterFac
 
 
 	/**
-	 * @param array $classes
+	 * @param array
 	 * @return string|null
 	 */
 	protected function findValidClass($classes)

@@ -1,8 +1,8 @@
 <?php
 namespace Librette\Application\PresenterFactory;
 
-use Nette\Application;
 use Nette;
+use Nette\Application;
 use Nette\Object;
 
 /**
@@ -17,7 +17,7 @@ class PresenterObjectFactory extends Object implements IPresenterObjectFactory
 	/** @var bool */
 	private $alwaysCallInjects = FALSE;
 
-	/** @var \Librette\Application\PresenterFactory\IInvalidLinkModeStrategy */
+	/** @var IInvalidLinkModeStrategy */
 	protected $invalidLinkModeStrategy;
 
 
@@ -41,7 +41,7 @@ class PresenterObjectFactory extends Object implements IPresenterObjectFactory
 
 
 	/**
-	 * @param boolean $alwaysCallInjects
+	 * @param boolean
 	 */
 	public function setAlwaysCallInjects($alwaysCallInjects)
 	{
@@ -52,8 +52,8 @@ class PresenterObjectFactory extends Object implements IPresenterObjectFactory
 	/**
 	 * Creates new presenter instance.
 	 *
-	 * @param  string $class presenter class name
-	 * @return Nette\Application\IPresenter
+	 * @param  string presenter class name
+	 * @return Application\IPresenter
 	 */
 	public function createPresenter($class)
 	{

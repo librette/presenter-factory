@@ -2,32 +2,12 @@
 namespace LibretteTests\Application\PresenterFactory;
 
 use Librette;
-use Nette\Application\Request;
 use Nette;
-use Tester\Assert;
+use Nette\Application\Request;
 use Tester;
+use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
-
-
-class PresenterObjectFactoryMock implements Librette\Application\PresenterFactory\IPresenterObjectFactory
-{
-
-	public function createPresenter($class)
-	{
-	}
-
-}
-
-
-class BarPresenter implements Nette\Application\IPresenter
-{
-
-	function run(Request $request)
-	{
-	}
-
-}
 
 
 /**
@@ -82,6 +62,26 @@ class GetPresenterClassTestCase extends Tester\TestCase
 			$this->presenterFactory->getPresenterClass($name);
 		}, 'Nette\Application\InvalidPresenterException', "Cannot load presenter 'Bar:Foo', no applicable mapping found.");
 	}
+}
+
+
+class PresenterObjectFactoryMock implements Librette\Application\PresenterFactory\IPresenterObjectFactory
+{
+
+	public function createPresenter($class)
+	{
+	}
+
+}
+
+
+class BarPresenter implements Nette\Application\IPresenter
+{
+
+	function run(Request $request)
+	{
+	}
+
 }
 
 
