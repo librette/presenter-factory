@@ -1,2 +1,7 @@
 vendor
 composer.lock
+tests/tmp/*
+tests/**/coverage.*
+tests/**/*.actual
+tests/**/*.expected
+!.gitkeep
