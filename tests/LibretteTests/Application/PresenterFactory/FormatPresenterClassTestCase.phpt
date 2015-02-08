@@ -62,6 +62,22 @@ class FormatPresenterClassTestCase extends Tester\TestCase
 		);
 	}
 
+	public function testDirectPresenterMapping()
+	{
+		$this->presenterFactory->setMapping(array(
+			':Foo:Bar' => 'FooModule\\BarPresenter',
+		));
+		Assert::same(['FooModule\\BarPresenter'], $this->presenterFactory->formatPresenterClasses('Foo:Bar'));
+	}
+
+	public function testPresenterNameOverwrite()
+	{
+		$this->presenterFactory->setMapping(array(
+			'Foo' => 'Foo\\*Module\\BarPresenter',
+		));
+		Assert::same(['Foo\\LoremModule\\BarPresenter'], $this->presenterFactory->formatPresenterClasses('Foo:Lorem:Ipsum'));
+	}
+
 }
 
 

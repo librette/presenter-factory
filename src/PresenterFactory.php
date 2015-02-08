@@ -111,10 +111,13 @@ class PresenterFactory extends Nette\Object implements Application\IPresenterFac
 	 */
 	public function addMapping($module, $mask)
 	{
-		if (!preg_match('#^\\\\?([\w\\\\]*\\\\)?(\w*\*\w*?\\\\)?([\w\\\\]*\*\w*)\z#', $mask, $m)) {
+		if (preg_match('#^\\\\?(([\w\\\\]+\\\\)?[\w]+)\z#', $mask, $m)) { //direct presenter mapping
+			$this->mapping[$module][] = $m[1];
+		} elseif (preg_match('#^\\\\?([\w\\\\]*\\\\)?(\w*\*\w*?\\\\)?([\w\\\\]*\*?\w*)\z#', $mask, $m)) {
+			$this->mapping[$module][] = array($m[1], $m[2] ? : '*Module\\', $m[3]);
+		} else {
 			throw new Nette\InvalidStateException("Invalid mapping mask '$mask'.");
 		}
-		$this->mapping[$module][] = array($m[1], $m[2] ? : '*Module\\', $m[3]);
 
 		return $this;
 	}
@@ -135,6 +138,8 @@ class PresenterFactory extends Nette\Object implements Application\IPresenterFac
 			$possibleModules[] = substr($presenter, 0, $pos);
 			$lastPos = $pos + 1;
 		}
+		$possibleModules[] = ':' . $presenter;
+
 		$classes = array();
 		foreach ($possibleModules as $module) {
 			if (!isset($this->mapping[$module])) {
@@ -142,11 +147,16 @@ class PresenterFactory extends Nette\Object implements Application\IPresenterFac
 			}
 			$moduleOffset = $module == '*' ? 0 : (substr_count($module, ':') + 1);
 			foreach ($this->mapping[$module] as $mapping) {
-				$mappingParts = array_slice($parts, $moduleOffset);
+				if (is_string($mapping)) {
+					$classes[] = $mapping;
+					continue;
+				}
+				$mappingParts = array_slice($parts, $moduleOffset, -1);
 				$class = $mapping[0];
 				while ($part = array_shift($mappingParts)) {
-					$class .= str_replace('*', $part, $mapping[count($mappingParts) ? 1 : 2]);
+					$class .= str_replace('*', $part, $mapping[1]);
 				}
+				$class .= str_replace('*', end($parts), $mapping[2]);
 
 				$classes[] = $class;
 			}
