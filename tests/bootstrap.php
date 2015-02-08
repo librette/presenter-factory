@@ -1,14 +1,14 @@
 <?php
-if (!$loader = include __DIR__ . '/../../vendor/autoload.php') {
+if (!$loader = include __DIR__ . '/../vendor/autoload.php') {
 	echo 'Install Nette Tester using `composer update --dev`';
 	exit(1);
 }
-$loader->add('LibretteTests', __DIR__ . '/../');
+$loader->addPsr4('LibretteTests\\Application\\PresenterFactory\\', __DIR__ . '/src/');
 
-\Nette\Diagnostics\Debugger::enable(\Nette\Diagnostics\Debugger::DEVELOPMENT, __DIR__ . '/../tmp/');
+Tracy\Debugger::enable(Tracy\Debugger::DEVELOPMENT, __DIR__ . '/tmp/');
 Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
-define('TEMP_DIR', __DIR__ . '/../tmp/' . (isset($_SERVER['argv']) ? md5(serialize($_SERVER['argv'])) : getmypid()));
+define('TEMP_DIR', __DIR__ . '/tmp/' . (isset($_SERVER['argv']) ? md5(serialize($_SERVER['argv'])) : getmypid()));
 Tester\Helpers::purge(TEMP_DIR);
 
 
