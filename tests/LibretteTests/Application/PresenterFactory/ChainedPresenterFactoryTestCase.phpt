@@ -52,6 +52,7 @@ class FooPresenterFactory implements Nette\Application\IPresenterFactory
 
 /**
  * @author David Matějka
+ * @testCase
  */
 class ChainedPresenterFactoryTestCase extends Tester\TestCase
 {

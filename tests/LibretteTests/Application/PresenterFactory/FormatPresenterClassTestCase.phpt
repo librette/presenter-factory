@@ -21,6 +21,7 @@ class PresenterObjectFactoryMock implements Librette\Application\PresenterFactor
 
 /**
  * @author David Matějka
+ * @testCase
  */
 class FormatPresenterClassTestCase extends Tester\TestCase
 {

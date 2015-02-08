@@ -23,6 +23,7 @@ class PresenterObjectFactoryMock implements IPresenterObjectFactory
 /**
  * @author David Grudl
  * @author David Matejka
+ * @testCase
  */
 class NetteCompatibilityTestCase extends TestCase
 {

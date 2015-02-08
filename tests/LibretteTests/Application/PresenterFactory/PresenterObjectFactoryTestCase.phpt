@@ -52,6 +52,7 @@ class SystemContainer extends Nette\DI\Container
 
 /**
  * @author David Matějka
+ * @testCase
  */
 class PresenterObjectFactoryTestCase extends Tester\TestCase
 {

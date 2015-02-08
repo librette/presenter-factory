@@ -32,6 +32,7 @@ class BarPresenter implements Nette\Application\IPresenter
 
 /**
  * @author David Matějka
+ * @testCase
  */
 class GetPresenterClassTestCase extends Tester\TestCase
 {

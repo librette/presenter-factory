@@ -23,6 +23,7 @@ class MyExtension extends Nette\DI\CompilerExtension implements Librette\Applica
 
 /**
  * @author David Matějka
+ * @testCase
  */
 class ExtensionTestCase extends Tester\TestCase
 {
