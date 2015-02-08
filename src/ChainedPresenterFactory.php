@@ -44,6 +44,7 @@ class ChainedPresenterFactory extends Object implements IPresenterFactory
 			try {
 				return $factory->getPresenterClass($name);
 			} catch (InvalidPresenterException $lastException) {
+				$exceptionMessages[] = $lastException->getMessage();
 			}
 		}
 		$exceptionMessage = "Cannot load presenter '$name'.' All " . count($exceptionMessages) . ' presenter factories have failed: ' . implode(';', $exceptionMessages);
