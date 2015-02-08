@@ -23,7 +23,7 @@ class GetPresenterClassTestCase extends Tester\TestCase
 
 	public function setUp()
 	{
-		$this->presenterFactory = $presenterFactory = new Librette\Application\PresenterFactory\PresenterFactory(new PresenterObjectFactoryMock());
+		$this->presenterFactory = $presenterFactory = new Librette\Application\PresenterFactory\PresenterFactory(new Mocks\PresenterObjectFactoryMock());
 		$presenterFactory->addMapping('Foo', 'LibretteTests\\Application\\PresenterFactory\\*Presenter');
 		$presenterFactory->addMapping('Foo', 'App\\*Presenter');
 	}
@@ -63,17 +63,6 @@ class GetPresenterClassTestCase extends Tester\TestCase
 		}, 'Nette\Application\InvalidPresenterException', "Cannot load presenter 'Bar:Foo', no applicable mapping found.");
 	}
 }
-
-
-class PresenterObjectFactoryMock implements Librette\Application\PresenterFactory\IPresenterObjectFactory
-{
-
-	public function createPresenter($class)
-	{
-	}
-
-}
-
 
 class BarPresenter implements Nette\Application\IPresenter
 {

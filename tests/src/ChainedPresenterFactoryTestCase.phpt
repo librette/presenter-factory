@@ -23,7 +23,7 @@ class ChainedPresenterFactoryTestCase extends Tester\TestCase
 
 	public function testChain()
 	{
-		$chainedPresenterFactory = new Librette\Application\PresenterFactory\ChainedPresenterFactory(new PresenterObjectFactoryMock());
+		$chainedPresenterFactory = new Librette\Application\PresenterFactory\ChainedPresenterFactory(new Mocks\PresenterObjectFactoryMock());
 		$chainedPresenterFactory->addPresenterFactory(new FailingPresenterFactory());
 		$chainedPresenterFactory->addPresenterFactory(new FooPresenterFactory());
 		$name = 'Foo';
@@ -33,7 +33,7 @@ class ChainedPresenterFactoryTestCase extends Tester\TestCase
 
 	public function testChainFail()
 	{
-		$chainedPresenterFactory = new Librette\Application\PresenterFactory\ChainedPresenterFactory(new PresenterObjectFactoryMock());
+		$chainedPresenterFactory = new Librette\Application\PresenterFactory\ChainedPresenterFactory(new Mocks\PresenterObjectFactoryMock());
 		$chainedPresenterFactory->addPresenterFactory(new FailingPresenterFactory());
 		$chainedPresenterFactory->addPresenterFactory(new FailingPresenterFactory());
 		Assert::exception(function () use ($chainedPresenterFactory) {
@@ -44,14 +44,6 @@ class ChainedPresenterFactoryTestCase extends Tester\TestCase
 }
 
 
-class PresenterObjectFactoryMock implements Librette\Application\PresenterFactory\IPresenterObjectFactory
-{
-
-	public function createPresenter($class)
-	{
-	}
-
-}
 
 
 class FailingPresenterFactory implements Nette\Application\IPresenterFactory

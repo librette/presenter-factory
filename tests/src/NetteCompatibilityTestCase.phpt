@@ -24,7 +24,7 @@ class NetteCompatibilityTestCase extends TestCase
 
 	public function setUp()
 	{
-		$this->presenterFactory = new PresenterFactory(new PresenterObjectFactoryMock());
+		$this->presenterFactory = new PresenterFactory(new Mocks\PresenterObjectFactoryMock());
 		$this->presenterFactory->addMapping('*', '*Module\\*Presenter');
 	}
 
@@ -73,14 +73,6 @@ class NetteCompatibilityTestCase extends TestCase
 }
 
 
-class PresenterObjectFactoryMock implements IPresenterObjectFactory
-{
-
-	public function createPresenter($class)
-	{
-	}
-
-}
 
 
 run(new NetteCompatibilityTestCase());

@@ -23,7 +23,7 @@ class FormatPresenterClassTestCase extends Tester\TestCase
 
 	public function setUp()
 	{
-		$this->presenterFactory = new Librette\Application\PresenterFactory\PresenterFactory(new PresenterObjectFactoryMock());
+		$this->presenterFactory = new Librette\Application\PresenterFactory\PresenterFactory(new Mocks\PresenterObjectFactoryMock());
 	}
 
 
@@ -73,15 +73,6 @@ class FormatPresenterClassTestCase extends Tester\TestCase
 
 }
 
-
-class PresenterObjectFactoryMock implements Librette\Application\PresenterFactory\IPresenterObjectFactory
-{
-
-	public function createPresenter($class)
-	{
-	}
-
-}
 
 
 \run(new FormatPresenterClassTestCase());
