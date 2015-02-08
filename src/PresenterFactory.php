@@ -16,9 +16,6 @@ use Nette\Application;
 class PresenterFactory extends Nette\Object implements Application\IPresenterFactory
 {
 
-	/** @var bool */
-	public $caseSensitive = FALSE;
-
 	/** @var array[] of module => splited mask */
 	private $mapping = [];
 
