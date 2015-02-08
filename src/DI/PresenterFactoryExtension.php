@@ -31,16 +31,13 @@ class PresenterFactoryExtension extends Nette\DI\CompilerExtension
 		        ->setClass('Librette\Application\PresenterFactory\PresenterFactory')
 		        ->addSetup('setMapping', [$mappings]);
 
+
+		$config = $this->getConfig($this->defaults);
+		$env = $builder->parameters['debugMode'] ? 'debug' : 'production';
+		$invalidLinkMode = $config['invalidLinkMode'][$env];
 		$builder->addDefinition($this->prefix('presenterObjectFactory'))
-		        ->setClass('Librette\Application\PresenterFactory\PresenterObjectFactory')
+		        ->setClass('Librette\Application\PresenterFactory\PresenterObjectFactory', [1 => $invalidLinkMode])
 		        ->addSetup('setAlwaysCallInjects', [$this->shouldAlwaysCallInject()]);
-
-
-		$genericConfig = $this->getConfig($this->defaults);
-		$mode = $builder->parameters['debugMode'] ? 'debug' : 'production';
-		$builder->addDefinition($this->prefix('invalidLinkModeStrategy'))
-		        ->setClass('Librette\Application\PresenterFactory\StaticInvalidLinkModeStrategy')
-		        ->setArguments([$genericConfig['invalidLinkMode'][$mode]]);
 
 	}
 

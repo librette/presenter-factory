@@ -29,17 +29,21 @@ class ExtensionTestCase extends Tester\TestCase
 
 	public function testBasic()
 	{
+		$this->configurator->addParameters(['container' => ['class' => 'SystemContainer_' . __FUNCTION__]]);
 		$this->configurator->addConfig(__DIR__ . '/config/basic.neon');
 		$this->configurator->setDebugMode(TRUE);
 		$container = $this->configurator->createContainer();
-		$this->configurator->addParameters(['container' => ['class' => 'SystemContainer_' . __FUNCTION__]]);
+
 		/** @var Librette\Application\PresenterFactory\PresenterFactory $presenterFactory */
 		Assert::type('Librette\Application\PresenterFactory\PresenterFactory', $presenterFactory = $container->getByType('Nette\Application\IPresenterFactory'));
-		$invalidLinkModeStrategy = $container->getByType('Librette\Application\PresenterFactory\StaticInvalidLinkModeStrategy');
-		Assert::same(Nette\Application\UI\Presenter::INVALID_LINK_WARNING, $invalidLinkModeStrategy->mode);
-
 		Assert::same(['*'     => [['', '*Module\\', '*Presenter']],
 		              'Nette' => [['NetteModule\\', '*\\', '*Presenter']]], $presenterFactory->getMapping());
+
+		$objectFactory = $container->getByType('Librette\Application\PresenterFactory\IPresenterObjectFactory');
+		$rc = new \ReflectionClass($objectFactory);
+		$rp = $rc->getProperty('invalidLinkMode');
+		$rp->setAccessible(TRUE);
+		Assert::same(Nette\Application\UI\Presenter::INVALID_LINK_WARNING, $rp->getValue($objectFactory));
 	}
 
 
@@ -49,8 +53,12 @@ class ExtensionTestCase extends Tester\TestCase
 		$this->configurator->addConfig(__DIR__ . '/config/basic.neon');
 		$this->configurator->setDebugMode(FALSE);
 		$container = $this->configurator->createContainer();
-		$invalidLinkModeStrategy = $container->getByType('Librette\Application\PresenterFactory\StaticInvalidLinkModeStrategy');
-		Assert::same(Nette\Application\UI\Presenter::INVALID_LINK_SILENT, $invalidLinkModeStrategy->mode);
+
+		$objectFactory = $container->getByType('Librette\Application\PresenterFactory\IPresenterObjectFactory');
+		$rc = new \ReflectionClass($objectFactory);
+		$rp = $rc->getProperty('invalidLinkMode');
+		$rp->setAccessible(TRUE);
+		Assert::same(Nette\Application\UI\Presenter::INVALID_LINK_SILENT, $rp->getValue($objectFactory));
 	}
 
 

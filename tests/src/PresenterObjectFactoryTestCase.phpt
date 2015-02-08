@@ -26,8 +26,7 @@ class PresenterObjectFactoryTestCase extends Tester\TestCase
 	{
 		$container = new SystemContainer();
 
-		$presenterObjectFactory = new Librette\Application\PresenterFactory\PresenterObjectFactory($container,
-			new Librette\Application\PresenterFactory\StaticInvalidLinkModeStrategy(99));
+		$presenterObjectFactory = new Librette\Application\PresenterFactory\PresenterObjectFactory($container, 99);
 
 		$object = $presenterObjectFactory->createPresenter($class = 'LibretteTests\Application\PresenterFactory\PresenterMock');
 		Assert::type($class, $object);
@@ -37,8 +36,7 @@ class PresenterObjectFactoryTestCase extends Tester\TestCase
 
 	public function testPresenterNotInDic()
 	{
-		$presenterObjectFactory = new Librette\Application\PresenterFactory\PresenterObjectFactory($dic = new SystemContainer(),
-			new Librette\Application\PresenterFactory\StaticInvalidLinkModeStrategy(1));
+		$presenterObjectFactory = new Librette\Application\PresenterFactory\PresenterObjectFactory($dic = new SystemContainer(), 1);
 
 		$object = $presenterObjectFactory->createPresenter($class = 'LibretteTests\Application\PresenterFactory\BarPresenterMock');
 		Assert::type($class, $object);

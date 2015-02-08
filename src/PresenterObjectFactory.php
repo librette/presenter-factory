@@ -17,17 +17,18 @@ class PresenterObjectFactory extends Object implements IPresenterObjectFactory
 	/** @var bool */
 	private $alwaysCallInjects = FALSE;
 
-	/** @var IInvalidLinkModeStrategy */
-	protected $invalidLinkModeStrategy;
+	/** @var int */
+	protected $invalidLinkMode;
 
 
 	/**
-	 * @param string $container
+	 * @param Nette\DI\Container
+	 * @param int
 	 */
-	public function __construct(Nette\DI\Container $container, IInvalidLinkModeStrategy $invalidLinkModeStrategy)
+	public function __construct(Nette\DI\Container $container, $invalidLinkMode)
 	{
 		$this->container = $container;
-		$this->invalidLinkModeStrategy = $invalidLinkModeStrategy;
+		$this->invalidLinkMode = $invalidLinkMode;
 	}
 
 
@@ -72,7 +73,7 @@ class PresenterObjectFactory extends Object implements IPresenterObjectFactory
 		}
 
 		if ($presenter instanceof Application\UI\Presenter && $presenter->invalidLinkMode === NULL) {
-			$presenter->invalidLinkMode = $this->invalidLinkModeStrategy->getInvalidLinkMode($presenter);
+			$presenter->invalidLinkMode = $this->invalidLinkMode;
 		}
 
 		return $presenter;
