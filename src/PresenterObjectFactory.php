@@ -59,7 +59,13 @@ class PresenterObjectFactory extends Object implements IPresenterObjectFactory
 	public function createPresenter($class)
 	{
 		$callInjects = $this->alwaysCallInjects;
-		if (count($services = $this->container->findByType($class)) === 1) {
+		$services = array_keys($this->container->findByTag('nette.presenter'), $class);
+		if (count($services) > 1) {
+			throw new Application\InvalidPresenterException("Multiple services of type $class found: " . implode(', ', $services) . '.');
+		} elseif (count($services)) {
+			$presenter = $this->container->createService($services[0]);
+			$callInjects = FALSE;
+		} elseif (count($services = $this->container->findByType($class)) === 1) {
 			$presenter = $this->container->createService($services[0]);
 		} else {
 			$presenter = $this->container->createInstance($class);
@@ -71,7 +77,6 @@ class PresenterObjectFactory extends Object implements IPresenterObjectFactory
 		if ($callInjects) {
 			$this->container->callInjects($presenter);
 		}
-
 		if ($presenter instanceof Application\UI\Presenter && $presenter->invalidLinkMode === NULL) {
 			$presenter->invalidLinkMode = $this->invalidLinkMode;
 		}
