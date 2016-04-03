@@ -2,6 +2,8 @@
 namespace LibretteTests\Application\PresenterFactory;
 
 use Librette;
+use Librette\Application\PresenterFactory\DefaultPresenterClassFormatter;
+use Librette\Application\PresenterFactory\PresenterFactory;
 use Nette;
 use Nette\Application\Request;
 use Tester;
@@ -14,18 +16,19 @@ require_once __DIR__ . '/../bootstrap.php';
  * @author David Matějka
  * @testCase
  */
-class GetPresenterClassTestCase extends Tester\TestCase
+class GetPresenterClassTest extends Tester\TestCase
 {
 
-	/** @var Librette\Application\PresenterFactory\PresenterFactory */
+	/** @var PresenterFactory */
 	protected $presenterFactory;
 
 
 	public function setUp()
 	{
-		$this->presenterFactory = $presenterFactory = new Librette\Application\PresenterFactory\PresenterFactory(new Mocks\PresenterObjectFactoryMock());
-		$presenterFactory->addMapping('Foo', 'LibretteTests\\Application\\PresenterFactory\\*Presenter');
-		$presenterFactory->addMapping('Foo', 'App\\*Presenter');
+		$classFormatter = new DefaultPresenterClassFormatter();
+		$this->presenterFactory = $presenterFactory = new PresenterFactory(function () {}, $classFormatter);
+		$classFormatter->addMapping('Foo', 'LibretteTests\\Application\\PresenterFactory\\*Presenter');
+		$classFormatter->addMapping('Foo', 'App\\*Presenter');
 	}
 
 
@@ -74,4 +77,4 @@ class BarPresenter implements Nette\Application\IPresenter
 }
 
 
-\run(new GetPresenterClassTestCase());
+(new GetPresenterClassTest())->run();

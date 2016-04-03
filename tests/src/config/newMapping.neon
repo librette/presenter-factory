@@ -5,3 +5,5 @@ presenterFactory:
 		*:
 			- App\*Module\Presenters\*Presenter
 			- *Module\*Presenter
+application:
+	scanDirs: false

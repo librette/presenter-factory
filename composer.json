@@ -9,15 +9,18 @@
 		}
 	],
 	"require": {
-		"nette/nette": "~2.1"
+		"php": ">7.0",
+		"nette/application": "~2.4",
+		"nette/di": "~2.4",
+		"nette/utils": "~2.4"
 	},
 	"require-dev": {
+		"nette/bootstrap": "~2.4",
 		"nette/tester": "@dev"
 	},
 	"autoload": {
 		"psr-4": {
 			"Librette\\Application\\PresenterFactory\\": "src/"
-		},
-		"files": ["src/exceptions.php"]
+		}
 	}
 }

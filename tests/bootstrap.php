@@ -5,7 +5,6 @@ if (!$loader = include __DIR__ . '/../vendor/autoload.php') {
 }
 $loader->addPsr4('LibretteTests\\Application\\PresenterFactory\\', __DIR__ . '/src/');
 
-Tracy\Debugger::enable(Tracy\Debugger::DEVELOPMENT, __DIR__ . '/tmp/');
 Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
 define('TEMP_DIR', __DIR__ . '/tmp/' . (isset($_SERVER['argv']) ? md5(serialize($_SERVER['argv'])) : getmypid()));

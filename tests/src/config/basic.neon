@@ -1,2 +1,6 @@
 extensions:
 	presenterFactory: Librette\Application\PresenterFactory\DI\PresenterFactoryExtension
+application:
+	scanDirs: false
+di:
+	debugger: false
