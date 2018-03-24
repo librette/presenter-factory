@@ -12,7 +12,7 @@ use Nette\Application;
  * @author David Grudl
  * @author David Matějka
  */
-class PresenterFactory extends Nette\Object implements Application\IPresenterFactory
+class PresenterFactory implements Application\IPresenterFactory
 {
 
 	/** @var array */
