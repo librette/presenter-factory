@@ -13,20 +13,12 @@ use Nette;
 class PresenterFactoryExtension extends Nette\DI\CompilerExtension
 {
 
-	protected $defaults = [
-		'mapping' => [
-			'*' => '*Module\\*Presenter',
-			'Nette' => 'NetteModule\\*\\*Presenter',
-		],
-	];
-
-
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
 		$mappings = $this->getMappings($this->getMappingConfig());
 		$builder->addDefinition($this->prefix('presenterClassFormatter'))
-			->setClass(IPresenterClassFormatter::class)
+			->setType(IPresenterClassFormatter::class)
 			->setFactory(DefaultPresenterClassFormatter::class)
 			->addSetup('setMapping', [$mappings]);
 
@@ -71,14 +63,21 @@ class PresenterFactoryExtension extends Nette\DI\CompilerExtension
 	protected function getMappingConfig(): array
 	{
 		$globalConfig = $this->compiler->getConfig();
-		if (isset($globalConfig['application']['mapping'], $globalConfig[$this->name]['mapping'])) {
+
+		if (!empty($globalConfig['application']->mapping) && !empty($globalConfig[$this->name]['mapping'])) {
 			throw new \LogicException("You cannot use both nette.application.mapping and {$this->name}.mapping config section, choose one.");
 		}
-		$userConfig = isset($globalConfig[$this->name]['mapping']) ? $globalConfig[$this->name]['mapping'] :
-			(isset($globalConfig['application']['mapping']) ? $globalConfig['application']['mapping'] : []);
-		$config = Nette\DI\Config\Helpers::merge($userConfig, $this->defaults['mapping']);
+		$userConfig = $globalConfig[$this->name]['mapping'] ?? ($globalConfig['application']->mapping ?? []);
+		foreach ([
+			'*' => '*Module\\*Presenter',
+			'Nette' => 'NetteModule\\*\\*Presenter',
+		] as $key => $value) {
+			if (!isset($userConfig[$key])) {
+				$userConfig[$key] = $value;
+			}
+		}
 
-		return $config;
+		return $userConfig;
 	}
 
 }

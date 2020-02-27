@@ -5,6 +5,7 @@ use Librette;
 use Librette\Application\PresenterFactory\DefaultPresenterClassFormatter;
 use Librette\Application\PresenterFactory\PresenterFactory;
 use Nette;
+use Nette\Application\IResponse;
 use Nette\Application\Request;
 use Tester;
 use Tester\Assert;
@@ -70,8 +71,9 @@ class GetPresenterClassTest extends Tester\TestCase
 class BarPresenter implements Nette\Application\IPresenter
 {
 
-	function run(Request $request)
+	function run(Request $request): IResponse
 	{
+		return new Nette\Application\Responses\TextResponse('foo');
 	}
 
 }

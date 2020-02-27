@@ -10,13 +10,14 @@
 	],
 	"require": {
 		"php": ">7.0",
-		"nette/application": "~2.4",
-		"nette/di": "~2.4",
-		"nette/utils": "~2.4"
+		"nette/application": "~3.0",
+		"nette/di": "~3.0",
+		"nette/utils": "~3.0"
 	},
 	"require-dev": {
-		"nette/bootstrap": "~2.4",
-		"nette/tester": "@dev"
+		"nette/bootstrap": "~3.0",
+		"nette/tester": "@dev",
+		"phpstan/phpstan": "^0.12.11"
 	},
 	"autoload": {
 		"psr-4": {

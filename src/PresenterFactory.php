@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Librette\Application\PresenterFactory;
 
@@ -55,13 +55,13 @@ class PresenterFactory implements Application\IPresenterFactory
 	}
 
 
-	public function createPresenter($name)
+	public function createPresenter(string $name): Application\IPresenter
 	{
 		return call_user_func($this->factory, $this->getPresenterClass($name));
 	}
 
 
-	public function getPresenterClass(& $name)
+	public function getPresenterClass(string &$name): string
 	{
 		if (isset($this->cache[$name])) {
 			return $this->cache[$name];
@@ -75,7 +75,7 @@ class PresenterFactory implements Application\IPresenterFactory
 
 		$class = $this->findValidClass($classes, $name);
 
-		$reflection = new Nette\Reflection\ClassType($class);
+		$reflection = new \ReflectionClass($class);
 		$class = $reflection->getName();
 
 		if (!$reflection->implementsInterface('Nette\Application\IPresenter')) {
